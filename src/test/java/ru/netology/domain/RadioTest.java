@@ -1,11 +1,8 @@
 package ru.netology.domain;
 
 import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.params.ParameterizedTest;
-//import org.junit.jupiter.params.provider.CsvSource;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RadioTest {
     //Test for Number of Stations
@@ -76,7 +73,7 @@ class RadioTest {
 
     @Test
     public void shouldSetStationTo1() {
-        Radio radio = new Radio( 1, 5);
+        Radio radio = new Radio(1, 5);
         int actualCurrentStation = radio.getCurrentStation();
         assertEquals(1, actualCurrentStation);
     }
@@ -191,6 +188,7 @@ class RadioTest {
         int actualCurrentVolume = radio.getCurrentVolume();
         assertEquals(100, actualCurrentVolume);
     }
+
     @Test
     public void shouldSetVolumeOverIncrease() {
         // NOS - Number of stations
@@ -203,7 +201,7 @@ class RadioTest {
     @Test
     public void shouldSetVolumeOverIncreaseNOS() {
         // NOS - Number of stations
-        Radio radio = new Radio(10,5, 101);
+        Radio radio = new Radio(10, 5, 101);
         radio.increaseVolume();
         int actualCurrentVolume = radio.getCurrentVolume();
         assertEquals(100, actualCurrentVolume);
@@ -240,7 +238,7 @@ class RadioTest {
     @Test
     public void shouldSetVolumeDecreaseUnderZeroNOS() {
         // NOS - Number of stations
-        Radio radio = new Radio(10,5, -1);
+        Radio radio = new Radio(10, 5, -1);
         radio.decreaseVolume();
         int actualCurrentVolume = radio.getCurrentVolume();
         assertEquals(0, actualCurrentVolume);
