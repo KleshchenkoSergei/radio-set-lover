@@ -1,58 +1,86 @@
 package ru.netology.domain;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@Data
+
 public class Radio {
 
     private int currentStation;
     private int currentVolume;
+    private int currentNumberOfStations = 10;
 
-    public int getCurrentStation() {
-        return currentStation;
+    public Radio(int currentNumberOfStations) {
+        if (currentNumberOfStations > 0) {
+            this.currentNumberOfStations = currentNumberOfStations;
+        }
     }
 
-    public void setCurrentStation(int currentStation) {
-        if (currentStation > 9) {
-            return;
+    public Radio(int currentStation, int currentVolume) {
+        if ((currentStation >= 0) & (currentStation < currentNumberOfStations)) {
+            this.currentStation = currentStation;
         }
-        if (currentStation < 0) {
-            return;
+        if ((currentVolume >= 0) & (currentVolume <= 100)) {
+            this.currentVolume = currentVolume;
         }
-        this.currentStation = currentStation;
+        if (currentStation > currentNumberOfStations) {
+            this.currentStation = currentNumberOfStations;
+        }
+        if (currentVolume < 0) {
+            this.currentVolume = 0;
+        }
+        if (currentVolume > 100) {
+            this.currentVolume = 100;
+        }
+    }
+
+    public Radio(int currentNumberOfStations, int currentStation, int currentVolume) {
+        if (currentNumberOfStations > 0) {
+            this.currentNumberOfStations = currentNumberOfStations;
+        }
+        if ((currentStation >= 0) & (currentStation < this.currentNumberOfStations)) {
+            this.currentStation = currentStation;
+        }
+        if (currentStation >= this.currentNumberOfStations) {
+            this.currentStation = this.currentNumberOfStations - 1;
+        }
+        if ((currentVolume >= 0) & (currentVolume <= 100)) {
+            this.currentVolume = currentVolume;
+        }
+        if (currentVolume < 0) {
+            this.currentVolume = 0;
+        }
+        if (currentVolume > 100) {
+            this.currentVolume = 100;
+        }
     }
 
     public void next() {
         setCurrentStation(currentStation);
-        currentStation++;
-        if (currentStation > 9) {
+        if (currentStation < (currentNumberOfStations - 1)) {
+            currentStation++;
+        } else {
             currentStation = 0;
         }
     }
 
     public void prev() {
         setCurrentStation(currentStation);
-        currentStation--;
-        if (currentStation < 0) {
-            currentStation = 9;
+        if (currentStation < 1) {
+            currentStation = currentNumberOfStations - 1;
+        } else {
+            currentStation--;
         }
-    }
-
-    public int getCurrentVolume() {
-        return currentVolume;
-    }
-
-    public void setCurrentVolume(int currentVolume) {
-        if (currentVolume > 10) {
-            return;
-        }
-        if (currentVolume < 0) {
-            return;
-        }
-        this.currentVolume = currentVolume;
     }
 
     public void increaseVolume() {
         setCurrentVolume(currentVolume);
-        if (currentVolume < 10) {
+        if (currentVolume < 100) {
             currentVolume++;
+        } else {
+            currentVolume = 100;
         }
 
     }

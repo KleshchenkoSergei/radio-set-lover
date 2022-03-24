@@ -1,93 +1,246 @@
 package ru.netology.domain;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RadioTest {
-
-    @ParameterizedTest
-    @CsvSource(value = {"'Set Station -1, Volume -1', -1, 0, -1, 0",
-            "'Set Station 0, Volume 0', 0, 0, 0, 0",
-            "'Set Station 1, Volume 1', 1, 1, 1, 1",
-            "'Set Station 8, Volume 9', 8, 8, 9, 9",
-            "'Set Station 9, Volume 10', 9, 9, 10, 10",
-            "'Set Station 10, Volume 11', 10, 0, 11, 0"})
-    void setStationAndVolume(String testName, int newCurrentStation, int expectedStation, int newCurrentVolume, int expectedVolume) {
-        Radio rad = new Radio();
-
-        rad.setCurrentStation(newCurrentStation);
-        int actualStation = rad.getCurrentStation();
-        assertEquals(expectedStation, actualStation);
-
-        rad.setCurrentVolume(newCurrentVolume);
-        int actualVolume = rad.getCurrentVolume();
-        assertEquals(expectedVolume, actualVolume);
+    //Test for Number of Stations
+    @Test
+    public void shouldSetNOSUnderLimit() {
+        // NOS - Number of stations
+        Radio radio = new Radio(-1);
+        int actualNumberOfStations = radio.getCurrentNumberOfStations();
+        assertEquals(10, actualNumberOfStations);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"'Set Next station 5', 5, 6, 1, 1",
-            "'Set Next station 9', 9, 0, 2, 2"})
-    void setNextStation(String testName, int newCurrentStation, int expectedStation, int newCurrentVolume, int expectedVolume) {
-        Radio rad = new Radio();
-
-        rad.setCurrentStation(newCurrentStation);
-        rad.next();
-        int actualStation = rad.getCurrentStation();
-        assertEquals(expectedStation, actualStation);
-
-        rad.setCurrentVolume(newCurrentVolume);
-        int actualVolume = rad.getCurrentVolume();
-        assertEquals(expectedVolume, actualVolume);
+    @Test
+    public void shouldSetNOSZero() {
+        // NOS - Number of stations
+        Radio radio = new Radio(0);
+        int actualNumberOfStations = radio.getCurrentNumberOfStations();
+        assertEquals(10, actualNumberOfStations);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"'Set Prev station 5', 5, 4, 3, 3",
-            "'Set Prev station 0', 0, 9, 4, 4"})
-    void setPrevStation(String testName, int newCurrentStation, int expectedStation, int newCurrentVolume, int expectedVolume) {
-        Radio rad = new Radio();
-
-        rad.setCurrentStation(newCurrentStation);
-        rad.prev();
-        int actualStation = rad.getCurrentStation();
-        assertEquals(expectedStation, actualStation);
-
-        rad.setCurrentVolume(newCurrentVolume);
-        int actualVolume = rad.getCurrentVolume();
-        assertEquals(expectedVolume, actualVolume);
+    @Test
+    public void shouldSetNOSTo1() {
+        // NOS - Number of stations
+        Radio radio = new Radio(1);
+        int actualNumberOfStations = radio.getCurrentNumberOfStations();
+        assertEquals(1, actualNumberOfStations);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"'Set Increase Volume 7', 5, 5, 7, 8",
-            "'Set Increase Volume 10', 0, 0, 10, 10"})
-    void setIncreaseVolume(String testName, int newCurrentStation, int expectedStation, int newCurrentVolume, int expectedVolume) {
-        Radio rad = new Radio();
-
-        rad.setCurrentStation(newCurrentStation);
-        int actualStation = rad.getCurrentStation();
-        assertEquals(expectedStation, actualStation);
-
-        rad.setCurrentVolume(newCurrentVolume);
-        rad.increaseVolume();
-        int actualVolume = rad.getCurrentVolume();
-        assertEquals(expectedVolume, actualVolume);
+    @Test
+    public void shouldSetNOSTo2() {
+        // NOS - Number of stations
+        Radio radio = new Radio(2);
+        int actualNumberOfStations = radio.getCurrentNumberOfStations();
+        assertEquals(2, actualNumberOfStations);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"'Set Decrease Volume 7', 7, 7, 7, 6",
-            "'Set Decrease Volume 0', 8, 8, 0, 0"})
-    void setDecreaseVolume(String testName, int newCurrentStation, int expectedStation, int newCurrentVolume, int expectedVolume) {
-        Radio rad = new Radio();
+    @Test
+    public void shouldSetNOSToZero() {
+        // The stations begin from 0
+        Radio radio = new Radio(0, 13, 5);
+        int actualNumberOfStations = radio.getCurrentNumberOfStations();
+        assertEquals(10, actualNumberOfStations);
+    }
 
-        rad.setCurrentStation(newCurrentStation);
-        int actualStation = rad.getCurrentStation();
-        assertEquals(expectedStation, actualStation);
+    @Test
+    public void shouldSetNOSLowerLimit() {
+        // The stations begin from 0
+        Radio radio = new Radio(-1, 13, 5);
+        int actualNumberOfStations = radio.getCurrentNumberOfStations();
+        assertEquals(10, actualNumberOfStations);
+    }
 
-        rad.setCurrentVolume(newCurrentVolume);
-        rad.decreaseVolume();
-        int actualVolume = rad.getCurrentVolume();
-        assertEquals(expectedVolume, actualVolume);
+
+    //Test for Stations
+    @Test
+    public void shouldSetStationUnderLimit() {
+        // NOS - Number of stations
+        Radio radio = new Radio(-1, 5);
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(0, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationToZero() {
+        Radio radio = new Radio(0, 5);
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(0, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationTo1() {
+        Radio radio = new Radio(1, 5);
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(1, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationUpperLimit() {
+        Radio radio = new Radio(15, 5);
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(10, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationTo2() {
+        Radio radio = new Radio(2, 5);
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(2, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationPrevUpLimit() {
+        // The stations begin from 0
+        Radio radio = new Radio(15, 13, 5);
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(13, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationUpLimit() {
+        // The stations begin from 0
+        Radio radio = new Radio(15, 14, 5);
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(14, actualCurrentStation);
+    }
+
+    // Station ++
+    @Test
+    public void shouldSetStationIncrease() {
+        // NOS - Number of stations
+        // The stations begin from 0
+        Radio radio = new Radio(15, 13, 5);
+        radio.next();
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(14, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationIncreaseOverLimit() {
+        // NOS - Number of stations
+        // The stations begin from 0
+        Radio radio = new Radio(15, 14, 5);
+        radio.next();
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(0, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationOverIncrease() {
+        // NOS - Number of stations
+        // The stations begin from 0
+        Radio radio = new Radio(15, 16, 5);
+        radio.next();
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(0, actualCurrentStation);
+    }
+
+    // Station --
+    @Test
+    public void shouldSetStationDecrease() {
+        // NOS - Number of stations
+        // The stations begin from 0
+        Radio radio = new Radio(15, 14, 5);
+        radio.prev();
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(13, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationDecreaseZero() {
+        // NOS - Number of stations
+        // The stations begin from 0
+        Radio radio = new Radio(15, 0, 5);
+        radio.prev();
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(14, actualCurrentStation);
+    }
+
+    @Test
+    public void shouldSetStationUnderZeroDecrease() {
+        // NOS - Number of stations
+        // The stations begin from 0
+        Radio radio = new Radio(15, -1, 5);
+        radio.prev();
+        int actualCurrentStation = radio.getCurrentStation();
+        assertEquals(14, actualCurrentStation);
+    }
+
+    // IncreaseVolume
+    @Test
+    public void shouldSetVolumeIncrease() {
+        // NOS - Number of stations
+        Radio radio = new Radio(5, 50);
+        radio.increaseVolume();
+        int actualCurrentVolume = radio.getCurrentVolume();
+        assertEquals(51, actualCurrentVolume);
+    }
+
+    @Test
+    public void shouldSetVolumeIncreaseOver() {
+        // NOS - Number of stations
+        Radio radio = new Radio(5, 100);
+        radio.increaseVolume();
+        int actualCurrentVolume = radio.getCurrentVolume();
+        assertEquals(100, actualCurrentVolume);
+    }
+
+    @Test
+    public void shouldSetVolumeOverIncrease() {
+        // NOS - Number of stations
+        Radio radio = new Radio(5, 101);
+        radio.increaseVolume();
+        int actualCurrentVolume = radio.getCurrentVolume();
+        assertEquals(100, actualCurrentVolume);
+    }
+
+    @Test
+    public void shouldSetVolumeOverIncreaseNOS() {
+        // NOS - Number of stations
+        Radio radio = new Radio(10, 5, 101);
+        radio.increaseVolume();
+        int actualCurrentVolume = radio.getCurrentVolume();
+        assertEquals(100, actualCurrentVolume);
+    }
+
+    // DecreaseVolume
+    @Test
+    public void shouldSetVolumeDecrease() {
+        // NOS - Number of stations
+        Radio radio = new Radio(5, 50);
+        radio.decreaseVolume();
+        int actualCurrentVolume = radio.getCurrentVolume();
+        assertEquals(49, actualCurrentVolume);
+    }
+
+    @Test
+    public void shouldSetVolumeDecreaseZero() {
+        // NOS - Number of stations
+        Radio radio = new Radio(5, 0);
+        radio.decreaseVolume();
+        int actualCurrentVolume = radio.getCurrentVolume();
+        assertEquals(0, actualCurrentVolume);
+    }
+
+    @Test
+    public void shouldSetVolumeDecreaseUnderZero() {
+        // NOS - Number of stations
+        Radio radio = new Radio(5, -1);
+        radio.decreaseVolume();
+        int actualCurrentVolume = radio.getCurrentVolume();
+        assertEquals(0, actualCurrentVolume);
+    }
+
+    @Test
+    public void shouldSetVolumeDecreaseUnderZeroNOS() {
+        // NOS - Number of stations
+        Radio radio = new Radio(10, 5, -1);
+        radio.decreaseVolume();
+        int actualCurrentVolume = radio.getCurrentVolume();
+        assertEquals(0, actualCurrentVolume);
     }
 }
